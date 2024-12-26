@@ -1,3 +1,7 @@
+# Implementation of Byte Pair Encoding using tiktoken
+#* Might be technically less advanced. For educational purposes.
+#* Feel free to extend by opening a pull request.
+
 from tiktoken import get_encoding
 
 tokenizer = get_encoding("gpt2")
@@ -28,8 +32,28 @@ print("Length of tokenized verdict:", len(tokenized_verdict))
 #     file.write(" ".join([str(token) for token in tokenized_verdict]))
 # print("Tokenized verdict saved to the-verdict-tokenized.txt")
 
-#* I'll implement the Q/A Parsing of GPT
-#? Might be technically less advanced. For educational purposes.
-#? Feel free to extend by opening a pull request.
+
+#* I'll implement the Question-Answer pairing of GPT below.
+
+# Inorder to make computation easier, we'll consider the first 50 tokens from tokenized verdict.
+# the easy way to create a input-output pair is to create two variables, 'input_text' and 'output_text'.
+# the input runs from [0, context_size], meanwhile output runs from [1, context_size + 1].
+
+verdict_sample = tokenized_verdict[:50]
+context_size = 5                            # could be of any size less than verdict_sample
+input_text = verdict_sample[: context_size]
+output_text = verdict_sample[1 : context_size + 1]
+
+print("Input sample tokens:", input_text)
+print("Output sample tokens:", output_text)
+
+for i in range(1, context_size + 1):
+    given_input = verdict_sample[:i]
+    predicted_output = verdict_sample[i]
+    print(tokenizer.decode(given_input), "----->", tokenizer.decode([predicted_output]))
+
+
+
+
 
 
