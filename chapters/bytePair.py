@@ -21,7 +21,7 @@ print("Final decoded:", decoded_text)
 # this process is repeated until the desired vocabulary size is reached
 
 
-with open("the-verdict.txt", "r", encoding="utf-8") as file:
+with open("data/the-verdict.txt", "r", encoding="utf-8") as file:
     text = file.read()
 tokenized_verdict = tokenizer.encode(text) 
 print("Length of tokenized verdict:", len(tokenized_verdict))
