@@ -24,11 +24,12 @@ def PytorchDataLoader(text, batch_size = 4, max_length = 256, stride = 128, shuf
 
 with open("data/the-verdict.txt", "r", encoding="utf-8") as file:
     text = file.read()
-data_loader = PytorchDataLoader(text, batch_size=1, max_length=4, shuffle=False, stride=1)
+data_loader = PytorchDataLoader(text, batch_size=8, max_length=4, shuffle=False, stride=4)
 length_data = len(data_loader)
 data_iter = iter(data_loader)
 next_data = next(data_iter)
 print("Length of data:", length_data)
-print("Data Batch:", next_data)
+print("Input:", next_data[0])
+print("Output:", next_data[1])
         
     

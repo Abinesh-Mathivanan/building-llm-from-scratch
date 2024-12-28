@@ -8,10 +8,10 @@ tokenizer = get_encoding("gpt2")
 text = "beens_codes is so cool <|endoftext|>"
 
 encoded_text = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
-print("Final encoded:", encoded_text)
+# print("Final encoded:", encoded_text)
 
 decoded_text = tokenizer.decode(encoded_text)
-print("Final decoded:", decoded_text)
+# print("Final decoded:", decoded_text)
 
 
 # bytepair encoding is a type of subword tokenization that is used to encode text data into smaller subword units
@@ -24,7 +24,7 @@ print("Final decoded:", decoded_text)
 with open("data/the-verdict.txt", "r", encoding="utf-8") as file:
     text = file.read()
 tokenized_verdict = tokenizer.encode(text) 
-print("Length of tokenized verdict:", len(tokenized_verdict))
+# print("Length of tokenized verdict:", len(tokenized_verdict))
 
 
 # you could save the tokenized verdict for future use. Just remove comments below.
@@ -44,13 +44,13 @@ context_size = 5                            # could be of any size less than ver
 input_text = verdict_sample[: context_size]
 output_text = verdict_sample[1 : context_size + 1]
 
-print("Input sample tokens:", input_text)
-print("Output sample tokens:", output_text)
+# print("Input sample tokens:", input_text)
+# print("Output sample tokens:", output_text)
 
 for i in range(1, context_size + 1):
     given_input = verdict_sample[:i]
     predicted_output = verdict_sample[i]
-    print(tokenizer.decode(given_input), "----->", tokenizer.decode([predicted_output]))
+    # print(tokenizer.decode(given_input), "----->", tokenizer.decode([predicted_output]))
 
 
 
