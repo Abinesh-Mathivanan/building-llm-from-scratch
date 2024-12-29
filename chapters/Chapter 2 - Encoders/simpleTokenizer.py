@@ -17,14 +17,15 @@ class SimpleTokenizer:
         return ' '.join([self.int_to_str.get(token, '<unk>') for token in tokens])
     
 vocabulary = {token: i for i, token in enumerate(['<pad>', '<unk>', '<s>', '</s>', 'hello', ',', 'how', 'are', 'you', '?', 'i', 'am', 'fine', 'thank', 'you', '.', 'goodbye', '!'])}
-print("Vocabulary:", vocabulary)  
+# print("Vocabulary:", vocabulary)  
 
 tokenizer = SimpleTokenizer(vocabulary)
 text = "yo, how are you? I am fine, thank you. goodbye!</s>"
 encoded_text = tokenizer.encode(text)
 decoded_text = tokenizer.decode(encoded_text)
-print("Final encoded:", encoded_text)
-print("Final decoded:", decoded_text)
+
+# print("Final encoded:", encoded_text)
+# print("Final decoded:", decoded_text)
 
 
 # encoded_text returns the encoded version of the input text using the vocabulary
