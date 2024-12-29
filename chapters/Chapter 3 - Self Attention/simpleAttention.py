@@ -25,8 +25,22 @@ normalized_attention_scores = attention_scores / attention_scores.sum()
 print("The Normalized attention score:", normalized_attention_scores)
 print("Sum of Normalized scores:", normalized_attention_scores.sum())
 
+#* The below is the implementation of context vector computation for input vector 2.
 context_vectors = torch.zeros(query.shape)
 for i, x_i in enumerate(input_embedding):
     context_vectors += normalized_attention_scores[i] * x_i
 print("The context vectors:", context_vectors)
+
+
+# TODO: Let's implement the simplified self attention for all the input vectors.
+
+full_attention_scores = input_embedding @ input_embedding.T 
+full_attention_weights = torch.softmax(full_attention_scores, dim=-1)
+full_context_vector = full_attention_weights @ input_embedding 
+
+print("Final Context Embeddings of the input:", full_context_vector)
+
+#* To implement the context vector embeddings, simply follow the above three steps
+
+
 
