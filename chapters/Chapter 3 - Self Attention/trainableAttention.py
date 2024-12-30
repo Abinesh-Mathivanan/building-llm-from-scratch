@@ -5,6 +5,7 @@
 # Value Matrix - contains the resultant vectors for the query.
 
 import torch 
+import math 
 
 inputs = torch.tensor(
     [[0.43, 0.15, 0.89],    # Your     (x^1)
@@ -48,7 +49,45 @@ single_key = keys[1]
 single_attention_score = single_key.dot(query_vector)
 
 # now, we got the attention score for the query input
-print("Attention score for single query:", single_attention_score)
+# print("Attention score for single query:", single_attention_score)
+
+# now, let's compute the attention scores for all the input keys 
+full_attention_score = query_vector @ keys.T 
+# print("Attention score for all input:", full_attention_score)
+
+# let's scale down the attention scores using embedding dimension of the keys (d_k)
+scaled_attention_scores = full_attention_score / math.sqrt(dimension_out)
+# print("Scaled Attention scores:", scaled_attention_scores)
+
+# convert scaled scores to attention weights using softmax
+attention_weights = torch.softmax(scaled_attention_scores, dim=-1)
+# print("Attention weights:", attention_weights)
+
+# finally, time to compute context vectors.
+context_vectors = attention_weights @ values
+# print("Context vectors:", context_vectors)
+
+
+                    # ---- process of converting token vectors to context vectors (simplified) --- #
+
+
+                    # Step 1: Convert token embeddings (X) to Query (Q), Key (K), and Value (V) matrices.
+                    # Q = X @ W_Q   # Query matrix, shape: (N, d_k)
+                    # K = X @ W_K   # Key matrix, shape: (N, d_k)
+                    # V = X @ W_V   # Value matrix, shape: (N, d_v)
+
+                    # Step 2: Compute attention scores by taking the dot product of Q and K^T.
+                    # Scores = Q @ K.T   # Shape: (N, N)
+
+                    # Step 3: Scale the scores to stabilize gradients.
+                    # Scaled Scores = Scores / sqrt(d_k)
+
+                    # Step 4: Normalize the scaled scores using the softmax function to get attention weights.
+                    # Attention Weights = softmax(Scaled Scores)  # Shape: (N, N)
+
+                    # Step 5: Compute the context vectors as the weighted sum of value vectors (V).
+                    # Context Vectors = Attention Weights @ V    # Shape: (N, d_v)
+
 
 
 
