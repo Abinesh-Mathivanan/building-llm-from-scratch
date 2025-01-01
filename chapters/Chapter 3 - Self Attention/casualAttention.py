@@ -35,6 +35,8 @@ class Casual_Attention(nn.Module):
         context_vectors = attention_weights @ value 
         return context_vectors 
     
+# if you want to add dropout functionality, use nn.Dropout(dropout_rate) 
+# dropout is generally performed after attention_weights, allowing the model to learn data efficiently.
 
                     # -------------------------------- Data Input -------------------------------- #    
 
