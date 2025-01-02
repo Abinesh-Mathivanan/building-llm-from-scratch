@@ -3,13 +3,11 @@
 Implementation of the book, "Building a Large Language Model" by Sebastian Raschka.
 
 
-## Reading Order
-
-To understand this project, please read the files and folders in the following order:
+To understand this project, read the files and folders in the following order:
 
 ### Chapters
 
-1. **chapters/Chapter 2 - Encoders/**: This directory contains the code related to encoders.
+1. **Chapter 2 - Encoders**: This directory contains the code related to encoders.
     - **simpleTokenizer.py**: Implements a basic tokenizer with a predefined vocabulary. It includes encoding and decoding functionalities.
     - **bytePair.py**: Implements Byte Pair Encoding (BPE) using the `tiktoken` library for tokenizing text data into subword units. It also demonstrates how to create input-output pairs for language modeling.
     - **tokenEmbedding.py**: Focuses on embedding tokens, representing them as vectors in a high-dimensional space. It demonstrates how to use PyTorch's `nn.Embedding` layer for token and positional embeddings.
@@ -17,7 +15,7 @@ To understand this project, please read the files and folders in the following o
     
   
 
-2. **chapters/Chapter 3 - Self Attention/**: This directory contains the code for implementing different self-attention mechanisms.
+2. **Chapter 3 - Self Attention**: This directory contains the code for implementing different self-attention mechanisms.
     - **simpleAttention.py**: Implements a basic attention mechanism by calculating attention scores and context vectors.
     - **trainableAttention.py**: Introduces the concept of weight matrices (Query, Key, Value) to efficiently compute context vectors.
     - **pyTorchAttention.py**: Implements self-attention using PyTorch's linear layers and a class-based approach.
