@@ -43,5 +43,5 @@ num_heads = 8
 inputs = torch.rand(32, 10, dim_in)  
 multi_head = Multi_head_Attetion(dim_in, num_heads)
 outputs = multi_head(inputs)
-print("Sample Attention value:", outputs[1])
+print("Sample Context Vector:", outputs[1])
 
