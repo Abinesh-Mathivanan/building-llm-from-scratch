@@ -44,9 +44,15 @@ class BeensTransformer(nn.Module):
 class BeensLayerNorm(nn.Module):
     def __init__(self, normalized_shape, eps=1e-5):
         super().__init__()
+        self.eps = 1e-5 
+        self.scale = nn.Parameter(torch.ones(normalized_shape))
+        self.shift = nn.Parameter(torch.ones(normalized_shape))
 
     def forward(self, inputs):
-        return inputs 
+        input_mean = inputs.mean(dim=1, keepdim=True)
+        input_variance = inputs.var(dim=1, unbiased=True, keepdim=True)
+        norm_input = (inputs - input_mean) / torch.sqrt(input_variance + self.eps)
+        return self.scale * norm_input + self.shift 
 
 
 # -------------------------------- Data Input -------------------------------- #
