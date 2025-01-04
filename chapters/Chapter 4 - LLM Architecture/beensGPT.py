@@ -65,13 +65,13 @@ batch = []
 batch.append(torch.tensor(tokenizer.encode(txt1)))
 batch.append(torch.tensor(tokenizer.encode(txt2)))
 batch = torch.stack(batch, dim=0)
-print(batch)
+# print(batch)
 
 torch.manual_seed(123)
 model = BeensGPTModel(beensGPT_config)
 logits = model(batch)
-print(logits.shape)
-print(logits)
+# print(logits.shape)
+# print(logits)
 
 
 

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn 
-import matplotlib.pyplot as plt 
+from beensGPT import beensGPT_config
+# import matplotlib.pyplot as plt 
 
 # we implement the GELU (Gaussian error linear unit) here
 class GELU(nn.Module):
@@ -34,4 +35,30 @@ gelu_output, relu_output = gelu(inputs), relu(inputs)
 # GELU is preferred over ReLU for its smooth, probabilistic nature, improving gradient flow and preventing dead neurons.
 # It outperforms ReLU in tasks like NLP by enhancing generalization and ensuring stable optimization.
 # GELU is often more computationally efficient than SwiGLU while offering better performance in transformer-based architectures.
+
+
+
+# ------------------------ Feed Forward Implementation ----------------------- #
+
+class FeedForward(nn.Module):
+    def __init__(self, beensGPT_config):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(beensGPT_config["embedding_dim"], 4 * beensGPT_config["embedding_dim"]),
+            nn.GELU(),
+            nn.Linear(4 * beensGPT_config["embedding_dim"], beensGPT_config["embedding_dim"])
+        )
+
+    def forward(self, inputs):
+        return self.layers(inputs)
+
+feed_forward = FeedForward(beensGPT_config)
+inputs = torch.rand(2, 3, 768)
+output_tensors = feed_forward(inputs)
+
+# print("Tensor inputs:", inputs)
+# print("Tensor shape:", inputs.shape)
+
+# print("FF output:", output_tensors)
+# print("FF shape:", output_tensors.shape)
 
