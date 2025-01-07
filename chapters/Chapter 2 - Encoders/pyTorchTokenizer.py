@@ -28,6 +28,7 @@ data_loader = PytorchDataLoader(text, batch_size=8, max_length=4, shuffle=False,
 length_data = len(data_loader)
 data_iter = iter(data_loader)
 next_data = next(data_iter)
+# print(next_data)
 
 # print("Length of data:", length_data)
 # print("Input:", next_data[0])

@@ -1,7 +1,17 @@
 import torch
 import torch.nn as nn 
-from beensGPT import beensGPT_config
+# from beensGPT import beensGPT_config
 # import matplotlib.pyplot as plt 
+
+beensGPT_config = {
+    "vocab_size": 50257,
+    "context_length": 1024,
+    "embedding_dim": 768,
+    "n_heads": 12,
+    "n_layers": 12,
+    "dropout_value": 0.1,
+    "qkv_bias": False
+}
 
 # we implement the GELU (Gaussian error linear unit) here
 class GELU(nn.Module):

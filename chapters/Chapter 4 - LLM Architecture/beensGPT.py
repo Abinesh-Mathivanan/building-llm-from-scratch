@@ -1,4 +1,8 @@
 # Creating a dummy GPT model named 'BeensGPT'
+import torch 
+import torch.nn as nn 
+from feedForward import FeedForward 
+from multiHeadAttention import Multi_head_Attetion
 
 beensGPT_config = {
     "vocab_size": 50257,
@@ -9,9 +13,6 @@ beensGPT_config = {
     "dropout_value": 0.1,
     "qkv_bias": False
 }
-
-import torch 
-import torch.nn as nn 
 
 class BeensGPTModel(nn.Module):
     def __init__(self, beens_config):
@@ -31,15 +32,38 @@ class BeensGPTModel(nn.Module):
         x = self.dropout(x)
         x = self.transformer_blocks(x)
         x = self.normalized_layer(x)
-        logits = self.normalized_layer(x)
+        logits = self.output(x)
         return logits 
 
 class BeensTransformer(nn.Module):
-    def __init__(self, beens_config):
+    def __init__(self, beensGPT_config):
         super().__init__()
+        self.attention = Multi_head_Attetion(
+            dimension_in=beensGPT_config["embedding_dim"],
+            num_heads=beensGPT_config["n_heads"],
+            dropout=beensGPT_config["dropout_value"],
+            qkv_bias=beensGPT_config["qkv_bias"]
+        )
+        self.feed_forward = FeedForward(beensGPT_config)
+        self.normalize_first = BeensLayerNorm(beensGPT_config["embedding_dim"])
+        self.normalize_second = BeensLayerNorm(beensGPT_config["embedding_dim"])
+        self.drop_shortcut = nn.Dropout(beensGPT_config["dropout_value"])
 
     def forward(self, inputs):
-        return inputs 
+        shortcut = inputs 
+        inputs = self.normalize_first(inputs)
+        inputs = self.attention(inputs)
+        inputs = self.drop_shortcut(inputs)
+        inputs = inputs + shortcut 
+
+        shortcut = inputs 
+        inputs = self.normalize_second(inputs)
+        inputs = self.feed_forward(inputs)
+        inputs = self.drop_shortcut(inputs)
+        inputs = shortcut + inputs 
+
+        return inputs  
+
     
 class BeensLayerNorm(nn.Module):
     def __init__(self, normalized_shape, eps=1e-5):
@@ -57,21 +81,38 @@ class BeensLayerNorm(nn.Module):
 
 # -------------------------------- Data Input -------------------------------- #
 
-from tiktoken import get_encoding 
-tokenizer = get_encoding("gpt2")
-txt1 = "how are you doing today"
-txt2 = "how are we gonna do"
-batch = []
-batch.append(torch.tensor(tokenizer.encode(txt1)))
-batch.append(torch.tensor(tokenizer.encode(txt2)))
-batch = torch.stack(batch, dim=0)
+# from tiktoken import get_encoding 
+# tokenizer = get_encoding("gpt2")
+# txt1 = "how are you doing today"
+# txt2 = "how are we gonna do"
+# batch = []
+# batch.append(torch.tensor(tokenizer.encode(txt1)))
+# batch.append(torch.tensor(tokenizer.encode(txt2)))
+# batch = torch.stack(batch, dim=0)
 # print(batch)
 
-torch.manual_seed(123)
-model = BeensGPTModel(beensGPT_config)
-logits = model(batch)
+# torch.manual_seed(123)
+# model = BeensGPTModel(beensGPT_config)
+# logits = model(batch)
 # print(logits.shape)
 # print(logits)
+
+# torch.manual_seed(123)
+# inputs = torch.rand(2, 4, 768)                  
+# transfomer_block = BeensTransformer(beensGPT_config)
+# output = transfomer_block(inputs)
+# print(inputs.shape)
+# print(output.shape)
+
+torch.manual_seed(123)
+inputs = torch.randint(0, beensGPT_config["vocab_size"], (2, 5), dtype=torch.long)
+model = BeensGPTModel(beensGPT_config)
+output = model(inputs)
+print(output)
+print(output.shape)
+
+
+
 
 
 
