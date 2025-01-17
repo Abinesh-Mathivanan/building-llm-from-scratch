@@ -21,6 +21,15 @@ To understand this project, read the files and folders in the following order:
     - **pyTorchAttention.py**: Implements self-attention using PyTorch's linear layers and a class-based approach.
     - **casualAttention.py**: Implements casual attention, a technique used in autoregressive models to prevent the model from attending to future tokens.
     - **multiHeadAttention.py**: Implements multi-head attention, where the input is processed through multiple attention heads in parallel.
+  
+3. **Chapter 4 - LLM Architecture**: This directory contains the implementation of core architecture.
+   - **beensGPT.py**: Main architecture file 
+   - **feedForward.py**: FFNN implementation 
+   - **layerNorm.py**: Layer Normalization implementation 
+   - **multiHeadAttention.py**: Implemented Multi head attention mechanism for beensGPT
+   - **shortcutConnection.py**: Implemented shortcut connection mechanism of the GPT 
+   - **SimpleText.py**: practice implementation of small GPT 
+  
     
   
 
