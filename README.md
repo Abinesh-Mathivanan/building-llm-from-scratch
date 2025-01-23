@@ -1,6 +1,6 @@
 # building-llm-from-scratch
 
-Implementation of the book, "Building a Large Language Model" by Sebastian Raschka.
+Implementation of the book, ["Building a Large Language Model (From Scratch"](https://github.com/rasbt/LLMs-from-scratch) by Sebastian Raschka.
 
 
 To understand this project, read the files and folders in the following order:
