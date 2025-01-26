@@ -50,6 +50,39 @@ def calculate_total_loss(data_loader, model, device, num_batches = None):
     return total_loss / num_batches
 
 
+                # ------------------- calculating total loss over n epochs ------------------- #
+
+def train_model(model, train_data_loader, validate_data_loader, optimizer, num_epochs, eval_freq, eval_iteration, start, tokenizer):
+    train_losses, value_losses, tokens_visited = [], [], []
+    token_mark, global_step = 0, -1
+
+    for epoch in range(num_epochs):
+        model.train()
+        for input_batch, target_batch in train_data_loader:
+            optimizer.zero_grad()
+            loss = calculate_loss_batch(input_batch, target_batch, model)
+            loss.backward()
+            optimizer.step()
+            token_mark += input_batch.numel()
+            global_step += 1 
+
+            if global_step % eval_freq == 0:
+                # train_loss, value_loss = evaluate_model() 
+                #TODO: i forgot to implement the eval model, ig. i'd just leave it as an exercide to the reader.
+                # you could visit sebastian's official repo for full implementation
+                #TODO: else, implement evaluate_model(model, train_data_loader, value_data_loader, device, eval_iteration)
+                train_loss, value_loss = -1, -1
+                train_losses.append(train_loss)
+                value_losses.append(value_loss)
+                tokens_visited.append(token_mark)
+
+    return train_losses, value_losses, tokens_visited
+    
+    # in this code, i skipped the intermediate printing statements 
+
+    
+
+
 
 
 
