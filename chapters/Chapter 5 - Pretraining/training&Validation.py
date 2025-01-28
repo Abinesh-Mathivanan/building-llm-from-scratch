@@ -1,5 +1,6 @@
 from tiktoken import get_encoding 
 import torch.nn as nn 
+import torch
 
 tokenizer = get_encoding("gpt2")
 file_path = "./data/the-verdict.txt"
@@ -67,22 +68,20 @@ def train_model(model, train_data_loader, validate_data_loader, optimizer, num_e
             global_step += 1 
 
             if global_step % eval_freq == 0:
-                # train_loss, value_loss = evaluate_model() 
-                #TODO: i forgot to implement the eval model, ig. i'd just leave it as an exercide to the reader.
-                # you could visit sebastian's official repo for full implementation
-                #TODO: else, implement evaluate_model(model, train_data_loader, value_data_loader, device, eval_iteration)
+                train_loss, value_loss = evaluate_model()
                 train_loss, value_loss = -1, -1
                 train_losses.append(train_loss)
                 value_losses.append(value_loss)
                 tokens_visited.append(token_mark)
 
     return train_losses, value_losses, tokens_visited
-    
-    # in this code, i skipped the intermediate printing statements 
+     
 
-    
-
-
-
-
+def evaluate_model(model, train_data_loader, value_data_loader, device, eval_iteration):
+    model.grad()
+    while torch.no_grad():
+        train_loss = calculate_total_loss(train_data_loader, model, device, num_batches=eval_iteration)
+        value_loss = calculate_total_loss(value_data_loader, model, device, num_batches=eval_iteration)
+    model.train()
+    return train_loss, value_loss 
 
